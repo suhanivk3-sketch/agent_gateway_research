@@ -6,6 +6,8 @@ Figures pulled on **15 October 2026**.
 
 I could not open Google Maps directly. So the star ratings below come from **Wanderlog**. That is a trip-planning site that copies the Google Maps rating and review count for each place. The numbers are real Google numbers, but they are a snapshot. Review counts move every day, and the same place sometimes shows a slightly different count on different pages. Treat every number as "about right".
 
+**Photos.** I added a photo column to the master tables. Photos are free-licensed pictures from Wikimedia Commons, and I could not use Google's own photos because they are copyrighted. Click a small photo to see it larger. Credits are at the end of this file. Where no free photo exists, the row has a "find photos" link that opens that place on Google Maps.
+
 Some things I could **not** find, and I say so in the tables instead of guessing:
 
 - Google ratings for **Sunset Town / Kiss Bridge** (I show a third-party rating instead, clearly marked).
@@ -44,52 +46,52 @@ Ratings are Google, out of 5, with the number of reviews in brackets. "n/c" mean
 
 ### North / north-west
 
-| # | Attraction | Direction | Google rating (reviews) | Quick take |
-|---|---|---|---|---|
-| 1 | **VinWonders Phu Quoc** (theme park + water park) | North-west (Bai Dai) | **4.8** (17,816) | Top-rated big attraction on the island |
-| 2 | **Vinpearl Safari** (open zoo) | North-west | **4.6** (about 26,650) | Huge. Best for families and giraffe feeding |
-| 3 | **Grand World** (canals, shops, night shows) | North-west (Bai Dai / Ganh Dau) | **4.4** (12,620) | Evening place. Photogenic, built for visitors |
-| 4 | **Phu Quoc National Park** | North / centre | **4.2** (1,074) | Nature and hiking. Check it is open (see notes) |
-| 5 | **Starfish Beach (Rach Vem)** | North | **3.8** (3,636) | Starfish are the point. Shallow, not for swimming |
-| 6 | **Ganh Dau beach** | Far north-west tip | **4.2** (274) | Northern coast, near the national park |
-| 7 | **Bai Dai Beach** | North-west | **4.2** (512) | Long beach (about 15 km) near the big parks |
-| 8 | **Vung Bau Beach** | North-west | **3.8** (about 200) | Calm bay, kayaking, rock formations |
-| 9 | **Cua Can Beach** | North-west | **3.8** (290) | Fewer reviews, so a weaker signal |
+| # | Attraction | Direction | Google rating (reviews) | Quick take | Photo |
+|---|---|---|---|---|---|
+| 1 | **VinWonders Phu Quoc** (theme park + water park) | North-west (Bai Dai) | **4.8** (17,816) | Top-rated big attraction on the island | [![VinWonders Phu Quoc (theme park + water park)](images/phu-quoc/thumbs/vinwonders.jpg)](images/phu-quoc/vinwonders.jpg) |
+| 2 | **Vinpearl Safari** (open zoo) | North-west | **4.6** (about 26,650) | Huge. Best for families and giraffe feeding | [![Vinpearl Safari (open zoo)](images/phu-quoc/thumbs/vinpearl-safari.jpg)](images/phu-quoc/vinpearl-safari.jpg) |
+| 3 | **Grand World** (canals, shops, night shows) | North-west (Bai Dai / Ganh Dau) | **4.4** (12,620) | Evening place. Photogenic, built for visitors | [![Grand World (canals, shops, night shows)](images/phu-quoc/thumbs/grand-world.jpg)](images/phu-quoc/grand-world.jpg) |
+| 4 | **Phu Quoc National Park** | North / centre | **4.2** (1,074) | Nature and hiking. Check it is open (see notes) | [find photos](https://www.google.com/maps/search/?api=1&query=Phu+Quoc+National+Park+Phu+Quoc) |
+| 5 | **Starfish Beach (Rach Vem)** | North | **3.8** (3,636) | Starfish are the point. Shallow, not for swimming | [find photos](https://www.google.com/maps/search/?api=1&query=Starfish+Beach+Phu+Quoc) |
+| 6 | **Ganh Dau beach** | Far north-west tip | **4.2** (274) | Northern coast, near the national park | [find photos](https://www.google.com/maps/search/?api=1&query=Ganh+Dau+beach+Phu+Quoc) |
+| 7 | **Bai Dai Beach** | North-west | **4.2** (512) | Long beach (about 15 km) near the big parks | [find photos](https://www.google.com/maps/search/?api=1&query=Bai+Dai+Beach+Phu+Quoc) |
+| 8 | **Vung Bau Beach** | North-west | **3.8** (about 200) | Calm bay, kayaking, rock formations | [find photos](https://www.google.com/maps/search/?api=1&query=Vung+Bau+Beach+Phu+Quoc) |
+| 9 | **Cua Can Beach** | North-west | **3.8** (290) | Fewer reviews, so a weaker signal | [find photos](https://www.google.com/maps/search/?api=1&query=Cua+Can+Beach+Phu+Quoc) |
 
 ### West / central-west (Duong Dong and Long Beach)
 
-| # | Attraction | Direction | Google rating (reviews) | Quick take |
-|---|---|---|---|---|
-| 10 | **Dinh Cau** (sea-goddess shrine + small lighthouse) | West (Duong Dong harbour) | **4.5** (3,675) | Small, easy, good at sunset |
-| 11 | **Phu Quoc Night Market** (main listing) | West (Duong Dong, Bach Dang St) | **4.0** (6,575) | Great for seafood and snacks, but touristy |
-| 12 | **Long Beach (Bai Truong)** | West / south-west of the town | **4.4** (765) | About 20 km long. Busy, built-up, easy swim |
-| 13 | **Ong Lang Beach** | West, about 6–7 km from the town | **3.8** (474) (a second listing shows **4.1** (745)) | Sunsets, bars, chairs |
-| 14 | **Sunset Sanato Beach Club** | West | **4.0** (2,666) | Sunset drinks. A very common stop |
-| 15 | **Ngoc Hien Pearl Farm** | West, near Long Beach | **4.2** (3,754) | Pearl demo and shop |
-| 16 | **Huynh Khoa fish-sauce showroom** | West, Duong Dong | **4.9** (372) | Local product visit |
-| 17 | **Su Muon Pagoda** | Duong Dong, hilltop | **4.4** (608) | Hilltop pagoda, reached by about 60 stone steps |
+| # | Attraction | Direction | Google rating (reviews) | Quick take | Photo |
+|---|---|---|---|---|---|
+| 10 | **Dinh Cau** (sea-goddess shrine + small lighthouse) | West (Duong Dong harbour) | **4.5** (3,675) | Small, easy, good at sunset | [![Dinh Cau (sea-goddess shrine + small lighthouse)](images/phu-quoc/thumbs/dinh-cau.jpg)](images/phu-quoc/dinh-cau.jpg) |
+| 11 | **Phu Quoc Night Market** (main listing) | West (Duong Dong, Bach Dang St) | **4.0** (6,575) | Great for seafood and snacks, but touristy | [![Phu Quoc Night Market (main listing)](images/phu-quoc/thumbs/night-market.jpg)](images/phu-quoc/night-market.jpg) |
+| 12 | **Long Beach (Bai Truong)** | West / south-west of the town | **4.4** (765) | About 20 km long. Busy, built-up, easy swim | [![Long Beach (Bai Truong)](images/phu-quoc/thumbs/long-beach.jpg)](images/phu-quoc/long-beach.jpg) |
+| 13 | **Ong Lang Beach** | West, about 6–7 km from the town | **3.8** (474) (a second listing shows **4.1** (745)) | Sunsets, bars, chairs | [find photos](https://www.google.com/maps/search/?api=1&query=Ong+Lang+Beach+Phu+Quoc) |
+| 14 | **Sunset Sanato Beach Club** | West | **4.0** (2,666) | Sunset drinks. A very common stop | [find photos](https://www.google.com/maps/search/?api=1&query=Sunset+Sanato+Beach+Club+Phu+Quoc) |
+| 15 | **Ngoc Hien Pearl Farm** | West, near Long Beach | **4.2** (3,754) | Pearl demo and shop | [find photos](https://www.google.com/maps/search/?api=1&query=Ngoc+Hien+Pearl+Farm+Phu+Quoc) |
+| 16 | **Huynh Khoa fish-sauce showroom** | West, Duong Dong | **4.9** (372) | Local product visit | [![Huynh Khoa fish-sauce showroom](images/phu-quoc/thumbs/fish-sauce.jpg)](images/phu-quoc/fish-sauce.jpg) |
+| 17 | **Su Muon Pagoda** | Duong Dong, hilltop | **4.4** (608) | Hilltop pagoda, reached by about 60 stone steps | [find photos](https://www.google.com/maps/search/?api=1&query=Su+Muon+Pagoda+Phu+Quoc) |
 
 ### East / inland
 
-| # | Attraction | Direction | Google rating (reviews) | Quick take |
-|---|---|---|---|---|
-| 18 | **Ho Quoc Pagoda** | East coast hillside (Duong To area), about 18–25 km from Duong Dong | **4.7** (1,424) | Big Zen monastery with sea views |
-| 19 | **Suoi Tranh Waterfall** | Inland, about 7 km from Duong Dong | **4.0** (about 587) | Short jungle walk to a waterfall |
-| 20 | **Ham Ninh fishing village** | East | **4.1** (1,045) | Seafood restaurants on stilts and piers |
-| 21 | **Pepper Farm (Phu Quoc Countryside)** | Inland | **4.8** (801) | Small farm visit. High rating |
-| 22 | **Suoi Da Ban** (stream and eco area) | Inland | **4.1** (507) | Jungle eco area with swimming pools |
+| # | Attraction | Direction | Google rating (reviews) | Quick take | Photo |
+|---|---|---|---|---|---|
+| 18 | **Ho Quoc Pagoda** | East coast hillside (Duong To area), about 18–25 km from Duong Dong | **4.7** (1,424) | Big Zen monastery with sea views | [![Ho Quoc Pagoda](images/phu-quoc/thumbs/ho-quoc-pagoda.jpg)](images/phu-quoc/ho-quoc-pagoda.jpg) |
+| 19 | **Suoi Tranh Waterfall** | Inland, about 7 km from Duong Dong | **4.0** (about 587) | Short jungle walk to a waterfall | [![Suoi Tranh Waterfall](images/phu-quoc/thumbs/suoi-tranh.jpg)](images/phu-quoc/suoi-tranh.jpg) |
+| 20 | **Ham Ninh fishing village** | East | **4.1** (1,045) | Seafood restaurants on stilts and piers | [![Ham Ninh fishing village](images/phu-quoc/thumbs/ham-ninh.jpg)](images/phu-quoc/ham-ninh.jpg) |
+| 21 | **Pepper Farm (Phu Quoc Countryside)** | Inland | **4.8** (801) | Small farm visit. High rating | [find photos](https://www.google.com/maps/search/?api=1&query=Pepper+Farm+Phu+Quoc) |
+| 22 | **Suoi Da Ban** (stream and eco area) | Inland | **4.1** (507) | Jungle eco area with swimming pools | [find photos](https://www.google.com/maps/search/?api=1&query=Suoi+Da+Ban+Phu+Quoc) |
 
 ### South / south-west / south-east
 
-| # | Attraction | Direction | Google rating (reviews) | Quick take |
-|---|---|---|---|---|
-| 23 | **Sun World Hon Thom cable car** | South (An Thoi station) | **4.5** (about 19,410) | Very long over-sea cable car. Ticket includes the island park |
-| 24 | **Sun World Hon Thom Nature Park + Aquatopia water park** | Hon Thom island (off the south tip) | Google n/c. Trip.com: 4.7 (about 215) | Water park and rides on the island |
-| 25 | **Sunset Town and Kiss Bridge** | South-west (An Thoi) | Google n/c. Airial: 4.7 (about 1,900) | Evening photos, show around sunset and later |
-| 26 | **Phu Quoc Prison (Coconut Tree Prison)** | South (An Thoi) | **4.3** (about 9,420) | Serious war museum. Many reviews |
-| 27 | **Sao Beach** | South-east | **3.9** (about 8,200) | The famous white-sand beach, with problems |
-| 28 | **Khem Beach** | South / south-east | **4.4** (2,109) | Often called cleaner and quieter than Sao |
-| 29 | **An Thoi Archipelago boat tours** | Off the southern tip | Hon Mong Tay **4.5** (96) | Snorkelling and island hopping. Few reviews, so low confidence |
+| # | Attraction | Direction | Google rating (reviews) | Quick take | Photo |
+|---|---|---|---|---|---|
+| 23 | **Sun World Hon Thom cable car** | South (An Thoi station) | **4.5** (about 19,410) | Very long over-sea cable car. Ticket includes the island park | [![Sun World Hon Thom cable car](images/phu-quoc/thumbs/cable-car.jpg)](images/phu-quoc/cable-car.jpg) |
+| 24 | **Sun World Hon Thom Nature Park + Aquatopia water park** | Hon Thom island (off the south tip) | Google n/c. Trip.com: 4.7 (about 215) | Water park and rides on the island | [![Sun World Hon Thom Nature Park + Aquatopia water park](images/phu-quoc/thumbs/hon-thom-park.jpg)](images/phu-quoc/hon-thom-park.jpg) [![Sun World Hon Thom Nature Park + Aquatopia water park](images/phu-quoc/thumbs/aquatopia.jpg)](images/phu-quoc/aquatopia.jpg) |
+| 25 | **Sunset Town and Kiss Bridge** | South-west (An Thoi) | Google n/c. Airial: 4.7 (about 1,900) | Evening photos, show around sunset and later | [![Sunset Town and Kiss Bridge](images/phu-quoc/thumbs/kiss-bridge.jpg)](images/phu-quoc/kiss-bridge.jpg) |
+| 26 | **Phu Quoc Prison (Coconut Tree Prison)** | South (An Thoi) | **4.3** (about 9,420) | Serious war museum. Many reviews | [![Phu Quoc Prison (Coconut Tree Prison)](images/phu-quoc/thumbs/phu-quoc-prison.jpg)](images/phu-quoc/phu-quoc-prison.jpg) |
+| 27 | **Sao Beach** | South-east | **3.9** (about 8,200) | The famous white-sand beach, with problems | [![Sao Beach](images/phu-quoc/thumbs/sao-beach.jpg)](images/phu-quoc/sao-beach.jpg) |
+| 28 | **Khem Beach** | South / south-east | **4.4** (2,109) | Often called cleaner and quieter than Sao | [![Khem Beach](images/phu-quoc/thumbs/khem-beach.jpg)](images/phu-quoc/khem-beach.jpg) |
+| 29 | **An Thoi Archipelago boat tours** | Off the southern tip | Hon Mong Tay **4.5** (96) | Snorkelling and island hopping. Few reviews, so low confidence | [find photos](https://www.google.com/maps/search/?api=1&query=An+Thoi+Archipelago+Phu+Quoc) |
 
 **Whole island on Google:** Phu Quoc as a place is **4.4** (about 6,000).
 
@@ -242,6 +244,34 @@ Ratings are Google, out of 5, with the number of reviews in brackets. "n/c" mean
 - Current ticket prices. The numbers above are from operator and blog pages.
 
 If you want, the next step is to fill these gaps by checking each place's Google Maps page when you are on a normal browser.
+
+---
+
+## Photo credits
+
+All photos come from [Wikimedia Commons](https://commons.wikimedia.org/) under the free licences shown. I resized each one (800 px wide, plus a small thumbnail). I did not change them in any other way. CC BY-SA licences ask you to credit the photographer and keep the same licence if you share them.
+
+| Place | Photo and photographer | Licence |
+|---|---|---|
+| VinWonders | [VinWonders Phu Quoc from ferris wheel.jpg](https://commons.wikimedia.org/wiki/File:VinWonders_Phu_Quoc_from_ferris_wheel.jpg) by lol1VNIO | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| Vinpearl Safari | [The Herd of Rhinos.jpg](https://commons.wikimedia.org/wiki/File:The_Herd_of_Rhinos.jpg) by Aidashhk | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) |
+| Grand World | [2023-07-30 Grand World Phú Quốc DSCF2045.jpg](https://commons.wikimedia.org/wiki/File:2023-07-30_Grand_World_Ph%C3%BA_Qu%E1%BB%91c_DSCF2045.jpg) by 松岡明芳 | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| Dinh Cau | [Dinh Cậu Phú Quốc.jpg](https://commons.wikimedia.org/wiki/File:Dinh_C%E1%BA%ADu_Ph%C3%BA_Qu%E1%BB%91c.jpg) by Hoangvantoanajc | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+| Phu Quoc Night Market | [Night market in Phu Quoc.jpg](https://commons.wikimedia.org/wiki/File:Night_market_in_Phu_Quoc.jpg) by Tonbi ko | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| Long Beach | [Sunset on the Long Beach in Phu Quoc Island, Vietnam, 5 March 2019.jpg](https://commons.wikimedia.org/wiki/File:Sunset_on_the_Long_Beach_in_Phu_Quoc_Island,_Vietnam,_5_March_2019.jpg) by Alexey Komarov | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| Fish-sauce factory | [Vats at a Fish Sauce Factory on Phu Quoc Island in Vietnam 01.jpg](https://commons.wikimedia.org/wiki/File:Vats_at_a_Fish_Sauce_Factory_on_Phu_Quoc_Island_in_Vietnam_01.jpg) by Frank Fox | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| Ho Quoc Pagoda | [Chùa Hộ Quốc (52681168609).jpg](https://commons.wikimedia.org/wiki/File:Ch%C3%B9a_H%E1%BB%99_Qu%E1%BB%91c_(52681168609).jpg) by Kevin Rutherford from United States | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/) |
+| Suoi Tranh Waterfall | [Suối Tranh Phú Quốc (37111056503).jpg](https://commons.wikimedia.org/wiki/File:Su%E1%BB%91i_Tranh_Ph%C3%BA_Qu%E1%BB%91c_(37111056503).jpg) by Sketyl none | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
+| Ham Ninh fishing village | [Hàm Ninh, Nhà hàng hải Sản,Phú Quốc, Vietnam - panoramio.jpg](https://commons.wikimedia.org/wiki/File:H%C3%A0m_Ninh,_Nh%C3%A0_h%C3%A0ng_h%E1%BA%A3i_S%E1%BA%A3n,Ph%C3%BA_Qu%E1%BB%91c,_Vietnam_-_panoramio.jpg) by trungydang | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) |
+| Hon Thom cable car | [Hon Thom Cable Car aerial view Phu Quoc Island Vietnam.jpg](https://commons.wikimedia.org/wiki/File:Hon_Thom_Cable_Car_aerial_view_Phu_Quoc_Island_Vietnam.jpg) by Vivu Vietnam | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| Sun World Hon Thom Nature Park | [Sun World Hon Thom aerial view panorama sunset Phu Quoc.jpg](https://commons.wikimedia.org/wiki/File:Sun_World_Hon_Thom_aerial_view_panorama_sunset_Phu_Quoc.jpg) by Vivu Vietnam | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| Aquatopia water park | [Cong-vien-nuoc-aquatopia-5.jpg](https://commons.wikimedia.org/wiki/File:Cong-vien-nuoc-aquatopia-5.jpg) by Vivu Vietnam | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| Sunset Town and Kiss Bridge | [Kiss Bridge at sunset Phu Quoc Island Vietnam.jpg](https://commons.wikimedia.org/wiki/File:Kiss_Bridge_at_sunset_Phu_Quoc_Island_Vietnam.jpg) by Vivu Vietnam | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| Phu Quoc Prison | [Phu Quoc Prison.jpg](https://commons.wikimedia.org/wiki/File:Phu_Quoc_Prison.jpg) by Frank Fox | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| Sao Beach | [Bai-sao-phu-quoc-tuonglamphotos.jpg](https://commons.wikimedia.org/wiki/File:Bai-sao-phu-quoc-tuonglamphotos.jpg) by Trantuonglam | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| Khem Beach | [Bai-kem-dong-khach-1.jpg](https://commons.wikimedia.org/wiki/File:Bai-kem-dong-khach-1.jpg) by Vivu Vietnam | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+
+**No free photo found** (use the "find photos" links in the tables): Phu Quoc National Park, Starfish Beach, Ganh Dau, Bai Dai, Vung Bau, Cua Can, Ong Lang, Sunset Sanato, Ngoc Hien Pearl Farm, Su Muon Pagoda, Pepper Farm, Suoi Da Ban, and the An Thoi boat tours.
 
 ---
 
