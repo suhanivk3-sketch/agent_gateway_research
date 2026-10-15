@@ -1,0 +1,318 @@
+<title>Phu Quoc Attraction Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a tall chart-style map of the island beside a ranked list. Pin size = Google review count. */
+:root {
+  --bg: #f0f4f3;
+  --panel: #ffffff;
+  --fg: #12262b;
+  --muted: #55696e;
+  --line: #cddad9;
+  --sea: #cfe3ec;
+  --land: #e9ecd9;
+  --coast: #8fa99a;
+  --cable: #12262b;
+  --ink: #ffffff;
+  --park: #c2185b;
+  --beach: #b4530a;
+  --history: #5b3fb0;
+  --market: #00796b;
+  --focus: #0b57d0;
+  --font-display: "Archivo Narrow", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b1519; --panel: #122127; --fg: #e3eeee; --muted: #8fa6ab; --line: #24383e;
+    --sea: #0e2833; --land: #1d3128; --coast: #46665a; --cable: #e3eeee; --ink: #0b1519;
+    --park: #ff7aa8; --beach: #ffb454; --history: #b9aaff; --market: #4fd6c5; --focus: #8ab4ff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0b1519; --panel: #122127; --fg: #e3eeee; --muted: #8fa6ab; --line: #24383e;
+  --sea: #0e2833; --land: #1d3128; --coast: #46665a; --cable: #e3eeee; --ink: #0b1519;
+  --park: #ff7aa8; --beach: #ffb454; --history: #b9aaff; --market: #4fd6c5; --focus: #8ab4ff;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font: 15px/1.5 var(--font-body);
+  padding-block: 28px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 20px; }
+h1 { font: 700 clamp(30px, 5vw, 44px)/1.05 var(--font-display); letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+.sub { margin: 8px 0 0; color: var(--muted); max-width: 62ch; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; min-height: 36px;
+  border: 1px solid var(--line); border-radius: 999px; background: var(--panel); color: var(--fg);
+  font: 500 13px var(--font-body); cursor: pointer;
+}
+.chip i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); flex: none; }
+.chip[aria-pressed="false"] { opacity: .5; text-decoration: line-through; }
+.chip.size i { background: none; border: 2px solid var(--muted); }
+.chip.size { cursor: default; border-style: dashed; }
+.grid { display: grid; grid-template-columns: minmax(0, auto) minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 820px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* map */
+.mapbox {
+  position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: var(--sea);
+  aspect-ratio: 0.6703 / 1;
+  width: min(100%, calc(min(86vh, 860px) * 0.6703));
+  margin-inline: auto; touch-action: auto; user-select: none; -webkit-user-select: none;
+}
+.mapbox.zoomed { touch-action: none; cursor: grab; }
+.mapbox.dragging { cursor: grabbing; }
+.mapbox svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.sea { fill: var(--sea); }
+.land { fill: var(--land); stroke: var(--coast); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.cable { stroke: var(--cable); stroke-width: 1.6; stroke-dasharray: 5 4; vector-effect: non-scaling-stroke; opacity: .75; }
+.pin {
+  position: absolute; transform: translate(-50%, -50%); border-radius: 50%;
+  border: 2px solid var(--panel); background: var(--c); color: var(--ink);
+  font: 600 12px/1 var(--font-mono); display: grid; place-items: center; padding: 0; cursor: pointer;
+  box-shadow: 0 1px 3px rgb(0 0 0 / .35);
+}
+.pin.nogoogle { background: var(--panel); color: var(--c); border: 2px dashed var(--c); }
+.pin.active { outline: 3px solid var(--fg); outline-offset: 2px; z-index: 5 !important; }
+.pin:focus-visible, .chip:focus-visible, .item:focus-visible, .tool:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.pin[hidden] { display: none; }
+.mlabel {
+  position: absolute; transform: translate(-50%, -50%); pointer-events: none; white-space: nowrap;
+  font: 600 10px var(--font-display); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); opacity: .8;
+}
+.tools { position: absolute; top: 10px; right: 10px; display: grid; gap: 4px; z-index: 6; }
+.tool {
+  width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); color: var(--fg);
+  font: 500 18px/1 var(--font-body); cursor: pointer; display: grid; place-items: center; padding: 0;
+}
+.tool.reset { font-size: 11px; font-family: var(--font-mono); }
+.compass { position: absolute; top: 10px; left: 10px; font: 700 12px var(--font-mono); color: var(--muted); text-align: center; line-height: 1.1; pointer-events: none; }
+.compass b { display: block; font-size: 16px; }
+.scale { position: absolute; left: 10px; bottom: 10px; font: 500 11px var(--font-mono); color: var(--fg); pointer-events: none; }
+.scale div { height: 6px; border: 2px solid var(--fg); border-top: 0; margin-bottom: 2px; }
+.card {
+  margin-top: 8px; min-height: 86px;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; font-size: 13px; line-height: 1.35;
+}
+.card strong { font: 700 16px var(--font-display); }
+.card .meta { font: 400 12px var(--font-mono); color: var(--muted); }
+.card .hint { color: var(--muted); }
+.attrib { font-size: 11px; color: var(--muted); margin: 6px 0 0; text-align: center; }
+
+/* list */
+.list { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.item {
+  display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 12px; align-items: center; width: 100%;
+  text-align: left; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--fg);
+  font: inherit; cursor: pointer;
+}
+.item[aria-current="true"] { border-color: var(--fg); box-shadow: inset 0 0 0 1px var(--fg); }
+.item[hidden] { display: none; }
+.badge {
+  width: 30px; height: 30px; border-radius: 50%; background: var(--c); color: var(--ink);
+  font: 600 12px var(--font-mono); display: grid; place-items: center;
+}
+.item.nogoogle .badge { background: var(--panel); color: var(--c); border: 2px dashed var(--c); }
+.item .name { font: 700 16px/1.15 var(--font-display); display: block; }
+.item .area { font-size: 12.5px; color: var(--muted); display: block; }
+.stat { text-align: right; font: 500 13px var(--font-mono); white-space: nowrap; }
+.stat small { display: block; font-size: 11px; color: var(--muted); }
+.notes { color: var(--muted); font-size: 13px; display: grid; gap: 6px; margin: 0; padding-left: 18px; max-width: 78ch; }
+@media (prefers-reduced-motion: no-preference) { .pin { transition: outline-offset .12s; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>Phu Quoc Attraction Map</h1>
+    <p class="sub">The 12 attractions with more than 2,000 Google reviews, plus Hon Thom Nature Park and Aquatopia. Pin size shows how many reviews a place has. Select a pin or a row to zoom in.</p>
+  </header>
+
+  <ul class="legend" id="legend" aria-label="Filter by type">
+    <li><button class="chip" data-cat="park" aria-pressed="true" style="--c:var(--park)"><i></i>Parks and rides</button></li>
+    <li><button class="chip" data-cat="beach" aria-pressed="true" style="--c:var(--beach)"><i></i>Beaches</button></li>
+    <li><button class="chip" data-cat="history" aria-pressed="true" style="--c:var(--history)"><i></i>History and culture</button></li>
+    <li><button class="chip" data-cat="market" aria-pressed="true" style="--c:var(--market)"><i></i>Markets and shops</button></li>
+    <li><span class="chip size"><i></i>Dashed pin: no Google count found</span></li>
+  </ul>
+
+  <div class="grid">
+    <div>
+      <div class="mapbox" id="map">
+        <svg id="land" viewBox="0 0 413.6 617.1" preserveAspectRatio="none" aria-hidden="true"><rect class="sea" width="413.6" height="617.1"/><path class="land" fill-rule="evenodd" d="M70.0 121.8L71.8 126.2L73.2 125.4L79.8 129.7L82.5 135.1L88.6 156.1L89.9 165.6L96.7 181.1L95.8 184.3L99.5 186.9L101.1 191.4L102.2 191.6L101.3 188.7L102.5 186.9L107.8 184.9L111.6 185.2L123.0 190.2L129.6 197.8L131.3 202.8L135.7 204.9L147.6 203.7L149.4 200.8L157.6 204.2L168.0 215.5L176.9 234.6L187.7 242.7L196.9 256.9L204.7 281.1L202.9 282.6L205.5 282.5L206.5 284.5L203.2 283.9L207.1 287.1L210.4 296.7L218.6 330.3L239.1 431.9L244.2 476.0L246.2 477.6L254.5 477.7L255.2 478.9L253.2 479.7L255.2 479.0L256.3 482.0L257.3 493.7L258.1 490.8L260.5 493.8L259.2 494.7L259.7 495.9L257.9 495.1L258.8 495.8L260.9 496.4L262.9 501.5L262.8 511.1L264.4 514.1L268.8 513.2L270.5 506.8L278.7 505.4L283.6 508.2L288.5 514.8L290.2 509.6L296.0 508.2L298.2 512.4L303.4 517.1L310.7 519.9L310.6 516.1L308.3 512.4L305.6 510.0L303.1 512.2L299.2 510.0L297.0 504.1L286.9 490.6L287.2 485.6L290.0 480.8L291.4 480.1L294.9 482.1L296.4 480.1L292.6 476.3L292.2 468.3L295.2 459.7L297.1 457.7L300.7 458.0L301.0 449.2L298.4 447.1L293.2 446.4L291.0 442.9L283.6 438.0L282.7 442.6L281.7 440.6L278.4 440.6L275.4 436.9L274.5 433.4L281.5 423.9L281.1 414.6L282.8 407.1L287.0 402.4L289.0 401.9L294.0 393.1L293.0 387.2L291.7 387.1L290.3 382.9L286.4 378.6L288.2 377.4L286.6 374.9L288.3 373.8L288.3 370.0L291.1 369.7L290.8 366.8L293.6 365.6L291.5 363.5L301.1 356.5L300.4 355.2L307.5 329.0L307.1 326.3L315.1 302.6L323.6 292.1L325.1 292.9L330.8 287.3L334.7 279.6L337.6 266.3L342.6 254.2L342.3 244.3L337.3 229.7L335.4 216.9L336.5 206.8L341.3 191.1L341.5 184.4L336.2 168.4L336.2 161.5L333.1 150.9L335.4 138.3L343.0 132.6L341.8 132.5L341.4 130.5L343.0 130.5L343.4 132.1L343.6 132.0L343.3 130.2L340.9 129.4L338.2 124.4L338.3 118.6L339.9 115.4L335.0 106.2L323.4 94.6L320.7 87.7L316.4 83.9L316.2 80.3L308.9 77.9L299.9 66.9L297.2 65.5L294.4 66.2L292.3 69.3L285.8 67.1L275.5 55.1L261.0 30.3L247.9 25.0L233.5 29.7L224.3 38.7L222.8 42.5L221.8 59.1L217.8 73.2L211.5 75.8L201.9 77.3L195.2 81.6L188.4 107.4L181.9 118.4L174.6 125.2L168.5 127.7L164.7 127.4L162.2 125.0L145.3 122.1L132.1 116.6L127.3 116.5L123.0 114.5L116.3 115.7L108.9 112.5L96.5 111.1L91.3 108.0L86.7 111.1L84.0 110.4L82.6 108.4L76.7 107.4L74.3 108.0L76.2 112.3L76.0 115.8L72.1 119.1L72.0 121.4L70.0 121.8Z"/><path class="land" fill-rule="evenodd" d="M264.3 565.0L266.4 565.6L267.3 567.1L267.4 570.0L266.9 571.0L266.0 570.9L265.4 572.6L266.3 572.4L268.5 576.4L268.3 578.5L266.0 579.8L266.0 581.1L264.7 581.7L265.1 582.6L268.6 584.4L268.8 586.0L270.7 585.2L272.8 586.4L273.8 587.3L274.0 589.5L275.9 591.3L278.3 592.1L279.2 590.1L280.8 589.2L281.8 585.2L276.9 580.5L276.9 576.5L278.8 573.1L277.7 568.7L272.9 561.7L271.3 562.0L268.0 559.8L264.7 560.7L264.3 565.0Z"/><line class="cable" x1="267.1" y1="534.3" x2="270.8" y2="574.5"/></svg>
+        <div class="compass" aria-hidden="true"><b>N</b>&uarr;</div>
+        <div class="tools">
+          <button class="tool" id="zin" aria-label="Zoom in">+</button>
+          <button class="tool" id="zout" aria-label="Zoom out">&minus;</button>
+          <button class="tool reset" id="zreset" aria-label="Reset view">All</button>
+        </div>
+        <div class="scale" id="scale" aria-hidden="true"><div id="scalebar"></div><span id="scaletxt"></span></div>
+      </div>
+      <div class="card" id="card" aria-live="polite"></div>
+      <p class="attrib">Island outline &copy; OpenStreetMap contributors (ODbL). Pin positions are approximate.</p>
+    </div>
+    <div>
+      <ol class="list" id="list"></ol>
+    </div>
+  </div>
+
+  <ul class="notes">
+    <li>Ratings and review counts are Google figures as copied by Wanderlog, pulled 15 October 2026. Counts change daily.</li>
+    <li>Numbers on the pins rank places by Google review count. 1 is the most reviewed.</li>
+    <li>The cable car pin is the departure station in An Thoi. The dashed line is the over-sea ride to Hon Thom island.</li>
+    <li>Hon Thom Nature Park and Aquatopia share one pin. Their 4.7 is from Trip.com (about 215 reviews), not Google.</li>
+    <li>The night market pin is the Dinh Cau night market in Duong Dong. Google has several listings for it.</li>
+  </ul>
+</div>
+
+<script>
+const DATA = {"W": 413.6, "H": 617.1, "places": [{"name": "Vinpearl Safari", "area": "North-west · Bai Dai", "cat": "park", "rating": 4.6, "reviews": 26636, "lat": 10.3394, "lon": 103.895, "note": "Open zoo with giraffe feeding. Big and hot, so start early.", "x": 138.5, "y": 150.2}, {"name": "Hon Thom cable car", "area": "South · An Thoi", "cat": "park", "rating": 4.5, "reviews": 19408, "lat": 9.992, "lon": 104.0124, "note": "Over-sea ride from An Thoi to Hon Thom island. About 8 km of cable.", "x": 267.1, "y": 534.3}, {"name": "VinWonders", "area": "North-west · Bai Dai", "cat": "park", "rating": 4.8, "reviews": 17816, "lat": 10.3384, "lon": 103.8547, "note": "Theme park and water park. Reviewers mention short queues and good food.", "x": 94.3, "y": 151.3}, {"name": "Grand World", "area": "North-west · Bai Dai", "cat": "park", "rating": 4.4, "reviews": 12620, "lat": 10.3249, "lon": 103.8581, "note": "Canals, shops and nightly shows. Best after sunset.", "x": 98.0, "y": 166.2}, {"name": "Phu Quoc Prison", "area": "South · An Thoi", "cat": "history", "rating": 4.3, "reviews": 9412, "lat": 10.0435, "lon": 104.0188, "note": "War museum with graphic reconstructions. Hot and sunny, bring water.", "x": 274.1, "y": 477.3}, {"name": "Sao Beach", "area": "South-east", "cat": "beach", "rating": 3.9, "reviews": 8202, "lat": 10.0525, "lon": 104.0352, "note": "White sand and clear water. Litter is the top complaint.", "x": 292.1, "y": 467.4}, {"name": "Phu Quoc Night Market", "area": "West · Duong Dong", "cat": "market", "rating": 4.0, "reviews": 6575, "lat": 10.2163, "lon": 103.9606, "note": "Street food and seafood. Touristy and pricey, so agree prices first.", "x": 210.3, "y": 286.3}, {"name": "Ngoc Hien Pearl Farm", "area": "West · near Long Beach", "cat": "market", "rating": 4.2, "reviews": 3754, "lat": 10.1701, "lon": 103.9702, "note": "Pearl demonstration and shop.", "x": 220.9, "y": 337.4}, {"name": "Dinh Cau", "area": "West · Duong Dong harbour", "cat": "history", "rating": 4.5, "reviews": 3675, "lat": 10.2172, "lon": 103.9564, "note": "Small sea-goddess shrine with a blue-and-white lighthouse.", "x": 205.7, "y": 285.3}, {"name": "Starfish Beach", "area": "North · Rach Vem", "cat": "beach", "rating": 3.8, "reviews": 3636, "lat": 10.3612, "lon": 103.9331, "note": "Shallow water. Look at the starfish, do not lift them out.", "x": 180.2, "y": 126.1}, {"name": "Sunset Sanato", "area": "West · Long Beach", "cat": "beach", "rating": 4.0, "reviews": 2666, "lat": 10.154, "lon": 103.9794, "note": "Beach club for sunset drinks.", "x": 230.9, "y": 355.2}, {"name": "Khem Beach", "area": "South", "cat": "beach", "rating": 4.4, "reviews": 2109, "lat": 10.0358, "lon": 104.0306, "note": "Often called cleaner and quieter than Sao Beach.", "x": 287.0, "y": 485.9}, {"name": "Hon Thom Nature Park + Aquatopia", "area": "Hon Thom island · off the south tip", "cat": "park", "rating": 4.7, "reviews": null, "lat": 9.9556, "lon": 104.0158, "src": "Trip.com, about 215 reviews", "note": "Reached by the cable car. Water park, games and rides. Google count not captured.", "x": 270.8, "y": 574.5}], "labels": [{"text": "Duong Dong", "lon": 103.936, "lat": 10.2165, "anchor": "r", "x": 183.4, "y": 286.1}, {"text": "Long Beach", "lon": 103.953, "lat": 10.125, "anchor": "r", "x": 202.0, "y": 387.2}, {"text": "Ham Ninh", "lon": 104.052, "lat": 10.195, "anchor": "l", "x": 310.5, "y": 309.8}, {"text": "An Thoi", "lon": 103.995, "lat": 10.03, "anchor": "r", "x": 248.0, "y": 492.3}]};
+(function () {
+  var CAT = { park: "Parks and rides", beach: "Beaches", history: "History and culture", market: "Markets and shops" };
+  var map = document.getElementById("map");
+  var list = document.getElementById("list");
+  var card = document.getElementById("card");
+  var W = DATA.W, H = DATA.H;
+  var vb = { x: 0, y: 0, w: W, h: H };
+  var svg = document.getElementById("land");
+  var places = DATA.places;
+  var selected = -1;
+  var visible = { park: true, beach: true, history: true, market: true };
+  var MAXREV = 26636;
+
+  function fmt(n) { return n.toLocaleString("en-US"); }
+  function size(p) { return p.reviews ? Math.round(20 + 14 * Math.sqrt(p.reviews / MAXREV)) : 26; }
+
+  // Build pins, labels, and list rows
+  var pins = [], rows = [];
+  places.forEach(function (p, i) {
+    p.rank = p.reviews ? i + 1 : null;
+    var b = document.createElement("button");
+    b.className = "pin" + (p.reviews ? "" : " nogoogle");
+    b.style.setProperty("--c", "var(--" + p.cat + ")");
+    var s = size(p); b.style.width = s + "px"; b.style.height = s + "px";
+    b.style.zIndex = String(10 + i);
+    b.textContent = p.reviews ? String(p.rank) : "☆";
+    b.setAttribute("aria-label", p.name);
+    b.addEventListener("click", function () { select(i, true); });
+    b.addEventListener("mouseenter", function () { show(i); });
+    b.addEventListener("mouseleave", function () { show(selected); });
+    b.addEventListener("focus", function () { show(i); });
+    map.appendChild(b); pins.push(b);
+
+    var li = document.createElement("li");
+    var r = document.createElement("button");
+    r.className = "item" + (p.reviews ? "" : " nogoogle");
+    r.style.setProperty("--c", "var(--" + p.cat + ")");
+    r.innerHTML = '<span class="badge">' + (p.reviews ? p.rank : "☆") + '</span>' +
+      '<span><span class="name"></span><span class="area"></span></span>' +
+      '<span class="stat"></span>';
+    r.querySelector(".name").textContent = p.name;
+    r.querySelector(".area").textContent = p.area;
+    r.querySelector(".stat").innerHTML = p.reviews
+      ? p.rating.toFixed(1) + ' &#9733;<small>' + fmt(p.reviews) + ' reviews</small>'
+      : p.rating.toFixed(1) + ' &#9733;<small>Trip.com</small>';
+    r.addEventListener("click", function () { select(i, true); });
+    li.appendChild(r); list.appendChild(li); rows.push(r);
+  });
+  var labels = DATA.labels.map(function (l) {
+    var d = document.createElement("div"); d.className = "mlabel"; d.textContent = l.text; map.appendChild(d); return d;
+  });
+
+  function show(i) {
+    if (i < 0) { card.innerHTML = '<span class="hint">Select a pin or a row to see details.</span>'; return; }
+    var p = places[i];
+    var stat = p.reviews
+      ? p.rating.toFixed(1) + " ★ · " + fmt(p.reviews) + " Google reviews"
+      : p.rating.toFixed(1) + " ★ · " + p.src + " (no Google count found)";
+    card.innerHTML = "";
+    var s = document.createElement("strong"); s.textContent = p.name;
+    var m = document.createElement("div"); m.className = "meta"; m.textContent = p.area + " · " + CAT[p.cat] + " · " + stat;
+    var n = document.createElement("div"); n.textContent = p.note;
+    card.appendChild(s); card.appendChild(m); card.appendChild(n);
+  }
+
+  function layout() {
+    var cw = map.clientWidth, k = cw / vb.w;
+    places.forEach(function (p, i) {
+      var el = pins[i];
+      el.style.left = ((p.x - vb.x) / vb.w * 100) + "%";
+      el.style.top = ((p.y - vb.y) / vb.h * 100) + "%";
+      el.hidden = !visible[p.cat];
+    });
+    DATA.labels.forEach(function (l, i) {
+      labels[i].style.left = ((l.x - vb.x) / vb.w * 100) + "%";
+      labels[i].style.top = ((l.y - vb.y) / vb.h * 100) + "%";
+      labels[i].style.transform = l.anchor === "r" ? "translate(-100%, -50%)" : "translate(0, -50%)";
+    });
+    svg.setAttribute("viewBox", vb.x + " " + vb.y + " " + vb.w + " " + vb.h);
+    // scale bar: map units are 0.1 km
+    var pxPerKm = 10 * k, opts = [1, 2, 5, 10, 20], km = 1;
+    for (var j = 0; j < opts.length; j++) { km = opts[j]; if (opts[j] * pxPerKm >= 48) break; }
+    document.getElementById("scalebar").style.width = (km * pxPerKm) + "px";
+    document.getElementById("scaletxt").textContent = km + " km";
+    map.classList.toggle("zoomed", vb.w < W - 1);
+  }
+
+  function clamp() {
+    vb.w = Math.max(W / 8, Math.min(W, vb.w)); vb.h = vb.w * H / W;
+    vb.x = Math.max(0, Math.min(W - vb.w, vb.x)); vb.y = Math.max(0, Math.min(H - vb.h, vb.y));
+  }
+  function zoomTo(f, cx, cy) { // f: new width fraction of current, centered on map coords
+    var nw = vb.w * f; vb.w = nw; vb.h = nw * H / W; vb.x = cx - vb.w / 2; vb.y = cy - vb.h / 2; clamp(); layout();
+  }
+  function center() { return { x: vb.x + vb.w / 2, y: vb.y + vb.h / 2 }; }
+  document.getElementById("zin").onclick = function () { var c = center(); zoomTo(0.6, c.x, c.y); };
+  document.getElementById("zout").onclick = function () { var c = center(); zoomTo(1 / 0.6, c.x, c.y); };
+  document.getElementById("zreset").onclick = function () { vb = { x: 0, y: 0, w: W, h: H }; layout(); };
+
+  function select(i, focusMap) {
+    selected = i;
+    rows.forEach(function (r, j) { if (j === i) r.setAttribute("aria-current", "true"); else r.removeAttribute("aria-current"); });
+    pins.forEach(function (b, j) { b.classList.toggle("active", j === i); });
+    show(i);
+    if (focusMap && i >= 0) {
+      var p = places[i], target = Math.min(vb.w, W * 0.3);
+      vb.w = target; vb.h = target * H / W; vb.x = p.x - vb.w / 2; vb.y = p.y - vb.h / 2; clamp(); layout();
+    }
+  }
+
+  // Drag to pan (only when zoomed in)
+  var drag = null;
+  map.addEventListener("pointerdown", function (e) {
+    if (vb.w >= W - 1 || e.target.closest("button, .card")) return;
+    drag = { x: e.clientX, y: e.clientY, vx: vb.x, vy: vb.y };
+    map.classList.add("dragging"); map.setPointerCapture(e.pointerId);
+  });
+  map.addEventListener("pointermove", function (e) {
+    if (!drag) return;
+    var k = vb.w / map.clientWidth;
+    vb.x = drag.vx - (e.clientX - drag.x) * k; vb.y = drag.vy - (e.clientY - drag.y) * k; clamp(); layout();
+  });
+  function end() { drag = null; map.classList.remove("dragging"); }
+  map.addEventListener("pointerup", end); map.addEventListener("pointercancel", end);
+
+  // Category filters
+  document.querySelectorAll("#legend .chip[data-cat]").forEach(function (c) {
+    c.addEventListener("click", function () {
+      var cat = c.getAttribute("data-cat");
+      visible[cat] = !visible[cat];
+      c.setAttribute("aria-pressed", String(visible[cat]));
+      places.forEach(function (p, i) { rows[i].parentNode.hidden = !visible[p.cat]; });
+      layout();
+    });
+  });
+
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") { select(-1); document.getElementById("zreset").click(); } });
+  window.addEventListener("resize", layout);
+  if (window.ResizeObserver) new ResizeObserver(layout).observe(map);
+  select(-1); layout();
+})();
+</script>
